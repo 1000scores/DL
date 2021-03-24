@@ -1,0 +1,60 @@
+class Colorizer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+        self.preconcat = nn.Sequential(
+            nn.Conv2d(1, 32, (3, 3), padding=1), # по дефолту stride = 1, а следовательно размерность не меняется, меняем мы только количество каналов
+            nn.MaxPool2d((2, 2), stride=(2, 2)), # а вот тут мы уменьшаем и высоту, и ширину, в два раза
+            nn.ReLU(),
+
+            nn.Conv2d(32, 64, (3, 3), padding=1),
+            nn.MaxPool2d((2, 2), stride=(2, 2)),
+            nn.ReLU(),
+
+            nn.Conv2d(64, 256, (3, 3), padding=1),
+            nn.MaxPool2d((2, 2), stride=(2, 2)),
+            nn.ReLU(),
+            # ...
+            # много-много таких штук ещё сделайте
+            # ...
+
+            nn.Upsample(scale_factor=2),         # увеличиваем высоту и ширину в два раза
+            nn.Conv2d(256, 128, (3, 3), padding=1),
+            nn.ReLU(),
+
+            nn.Upsample(scale_factor=2),         # увеличиваем высоту и ширину в два раза
+            nn.Conv2d(128, 64, (3, 3), padding=1),
+            nn.ReLU(),
+
+            nn.Upsample(scale_factor=2),         # увеличиваем высоту и ширину в два раза
+            nn.Conv2d(64, 64, (3, 3), padding=1),
+            nn.ReLU(),
+            
+            # ...
+            # много-много таких же, но наоборот
+            # ...
+        )
+
+        self.preconcat2 = nn.Sequential(
+            nn.Conv2d(1, 32, (3, 3), padding=1), # по дефолту stride = 1, а следовательно размерность не меняется
+            nn.MaxPool2d((2, 2), stride=(2, 2)),                                     # меняем мы только количество каналов
+            nn.ReLU(),
+            nn.Upsample(scale_factor=2),
+
+        )
+         
+        self.postconcat = nn.Sequential(         # эту сетку можно особо не увеличивать - она не должна быть очень умной
+            nn.Conv2d(65, 32, (3, 3), padding=1),# подумайте, откуда у автора тут 65
+            nn.ReLU(),
+            nn.Conv2d(32, 3, (3, 3), padding=1),
+            nn.Sigmoid()
+        )
+    
+    def forward(self, x):
+        h = self.preconcat(x)
+        #display(h.shape)
+        # исходное чб изображение -- просто дополнительным слоем
+        h = torch.cat((h, x), 1)
+        #display(h.shape)
+        h = self.postconcat(h)
+        return h

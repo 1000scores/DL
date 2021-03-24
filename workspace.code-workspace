@@ -1,0 +1,52 @@
+{
+	"folders": [
+		{
+			"name": "Lesson1",
+			"path": "Lesson1"
+		},
+		{
+			"name": "Lesson2",
+			"path": "Lesson2"
+		},
+		{
+			"name": "Lesson3",
+			"path": "Lesson3"
+		},
+		{
+			"name": "Lesson4",
+			"path": "Lesson4"
+		},
+		{
+			"name": "Lesson5",
+			"path": "Lesson5"
+		},
+		{
+			"name": "Lesson6",
+			"path": "Lesson6"
+		},
+		{
+			"name": "Lesson7",
+			"path": "Lesson7"
+		},
+		{
+			"name": "Lesson8",
+			"path": "Lesson8"
+		},
+		{
+			"name": "Lesson9",
+			"path": "Lesson9"
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		]
+	}
+}

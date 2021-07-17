@@ -35,6 +35,15 @@
 		{
 			"name": "Lesson9",
 			"path": "Lesson9"
+		},
+		{
+			"path": "Lesson10"
+		},
+		{
+			"path": "Lesson11"
+		},
+		{
+			"path": "Lesson12"
 		}
 	],
 	"launch": {
